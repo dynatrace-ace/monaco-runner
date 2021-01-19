@@ -12,8 +12,8 @@ RUN apk add --update --no-cache \
     nss \
     unzip \
     util-linux \
-    wget 
-    #libc6-compat
+    wget \
+    libc6-compat
 
 RUN mkdir /dynatrace
 
