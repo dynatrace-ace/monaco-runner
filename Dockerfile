@@ -6,7 +6,9 @@ ENV MONACO_DOWNLOAD_URL=https://github.com/dynatrace-oss/dynatrace-monitoring-as
 
 RUN apk add --update --no-cache \
     bash \
-    curl 
+    curl \
+    util-linux \
+    wget
 
 RUN mkdir /dynatrace
 
