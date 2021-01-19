@@ -9,16 +9,11 @@ RUN apk add --update --no-cache \
     jq \
     ca-certificates \
     bash \
-    #groff \
-    #gcc \
-    #libc-dev linux-headers libffi-dev \
-    #openssl-dev \
-    #grep 
     nss \
-    unzip \
-    util-linux \
-    wget \
-    libc6-compat
+    unzip 
+    #util-linux \
+    #wget \
+    #libc6-compat
 
 RUN mkdir /dynatrace
 
