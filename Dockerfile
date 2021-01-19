@@ -9,8 +9,8 @@ RUN apk add --update --no-cache \
     jq \
     ca-certificates \
     bash \
-    #nss \
-    #unzip 
+    nss \
+    unzip \
     util-linux \
     wget 
     #libc6-compat
