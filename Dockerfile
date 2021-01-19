@@ -5,6 +5,7 @@ ARG MAC_VERSION="v1.1.0"
 ENV MONACO_DOWNLOAD_URL=https://github.com/dynatrace-oss/dynatrace-monitoring-as-code/releases/download/${MAC_VERSION}/monaco-linux-amd64
 
 RUN apk add --update --no-cache \
+    bash \
     curl 
 
 RUN mkdir /dynatrace
