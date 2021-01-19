@@ -13,12 +13,12 @@ RUN apk add --update --no-cache \
     gcc \
     libc-dev linux-headers libffi-dev \
     openssl-dev \
-    grep \
-    nss \
-    unzip \
-    util-linux \
-    wget \
-    libc6-compat
+    grep 
+    #nss \
+    #unzip \
+    #util-linux \
+    #wget \
+    #libc6-compat
 
 RUN mkdir /dynatrace
 
