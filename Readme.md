@@ -1,55 +1,35 @@
-# monaco-runner
-A container image that contains Dynatrace's Monaco (Monitoring as Code) toolset to be used within a CI/CD pipeline
+# Overview
 
-Dynatrace Monaco (Monitoring as Code) v1.6.0 toolset available as `monaco` command. more info: https://github.com/dynatrace-oss/dynatrace-monitoring-as-code 
+Automation is the key to successful IT operations. Automation is also the key to successful monitoring and how you set up your monitoring environment or software intelligence platform.
 
-- [monaco-runner](#monaco-runner)
-  - [Using the monaco-runner in a Jenkins environment with Kubernetes integration](#using-the-monaco-runner-in-a-jenkins-environment-with-kubernetes-integration)
-  - [Dealing with untrusted certificates](#dealing-with-untrusted-certificates)
+Without such rules, configuring your environments can result in chaos, with losses in flexibility, speed, and stability.  One option to automate Dynatrace monitoring configurations to one or multiple Dynatrace environments is the [Monaco (Monitoring as Code)](https://dynatrace-oss.github.io/dynatrace-monitoring-as-code/) toolset. 
 
-## Using the monaco-runner in a Jenkins environment with Kubernetes integration
-1. Go to `Manage Jenkins` and click on `Configure System`
-![](resources/manage_jenkins.png)
+To automate `Monaco` within pipelines, this repo creates a container image with the Dynatrace's Monaco that be be used within any CI/CD any pipeline that supports running a Docker image with a volume mount.
 
-1. At the bottom of the page, click on the link directing you to cloud configuration
-![](resources/configure_clouds.png)
+## Example Usage
 
-1. On the Cloud Configuration page, click on `Pod Templates...`
-![](resources/configure_clouds_2.png)
+* [Jenkins](JENKINS.MD)
+* [JFrog Pipelines](JFROG.MD)
 
-1. Add a new pod template and fill it in as follows:
-   1. `Name`: A free name for you to give to the template
-   2. `Labels`: A label we will use to refer to this template, `monaco-runner` will be used in a later pipeline
-   3. `Container template name`: the name of this container, `monaco` will be used in a later pipeline
-   4. `Docker Image`: `dynatraceace/monaco-runner:release-v1.6.0` *Note* a new release might be available
-   5. `Command to run`: `/bin/sh -c`
-   6. `Arguments to pass to the command`: `cat`
-   7. `Allocate pseudo-TTY`: `yes`
-![](resources/pod_template.png)
+## Development
 
-2. Click on Save
+1. Create or adjust the various configuration files according the [monaco configuration structure](https://dynatrace-oss.github.io/dynatrace-monitoring-as-code/configuration/yaml_confg)
 
-1. In your `Jenkinsfile` you can now refer to the runner like this:
+1. Set the Dynatrace URL and API Token and local variables
+
     ```
-    pipeline {
-        agent {
-            label 'monaco-runner'
-        }
-        stages {
-            stage('Dynatrace global config - Deploy') {
-                steps {
-                    container('monaco') {
-                        script{
-                            sh "monaco -v -e=$ENVS_FILE -p=global monaco/projects"
-                        }
-                    }
-                }
-            }   
-        }
-    }
+    export DT_BASEURL=[YOUR URL]
+    export DT_API_TOKEN=[YOUR API TOKEN]
     ```
+
+1. Run Docker image with a volume mount (assuming monaco files are in current directory)
+
+```
+docker run -e DT_BASEURL=$DT_BASEURL -e DT_API_TOKEN=$DT_API_TOKEN -e NEW_CLI=1 -v $(pwd):/monaco-mount/ dynatraceace/monaco-runner:release-v1.6.0 "monaco deploy -v --environments /monaco-mount/monaco/environments.yml --project demoapp /monaco-mount/monaco/projects"
+```
 
 ## Dealing with untrusted certificates
+
 In cases where you need to use Monaco against a Dynatrace environment with untrusted certificates, you can use this image as a base for creating a custom Docker image. An example for that is in [with_certs/Dockerfile](with_certs/Dockerfile)
 ```
 FROM dynatraceace/monaco-runner:release-v1.6.0 
