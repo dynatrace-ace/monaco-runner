@@ -8,6 +8,7 @@ To automate `Monaco` within pipelines, this repo creates a container image with 
 
 ## Example Usage
 
+* [GitHub Actions](GITHUB.MD)
 * [Jenkins](JENKINS.MD)
 * [JFrog Pipelines](JFROG.MD)
 
