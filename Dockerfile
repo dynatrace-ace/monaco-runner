@@ -1,7 +1,7 @@
 FROM alpine:latest
-LABEL version="v1.6.0" maintainer="Dynatrace ACE team<ace@dynatrace.com>"
+LABEL version="v1.7.0" maintainer="Dynatrace ACE team<ace@dynatrace.com>"
 
-ARG MAC_VERSION="v1.6.0"
+ARG MAC_VERSION="v1.7.0"
 ENV MONACO_DOWNLOAD_URL=https://github.com/dynatrace-oss/dynatrace-monitoring-as-code/releases/download/${MAC_VERSION}/monaco-linux-amd64
 
 RUN apk add --update --no-cache \
